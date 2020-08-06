@@ -9,7 +9,7 @@ from unittest import TestCase
 from cli_test_helpers import ArgvContext
 from mockito import unstub, when, contains, verify, mock
 
-from yawsso import cli
+from dnxsso import cli
 
 handler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s %(name)-12s %(levelname)-8s %(message)s')
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
 
-program = 'yawsso'
+program = 'dnxsso'
 
 
 class CLIUnitTests(TestCase):
@@ -33,7 +33,7 @@ class CLIUnitTests(TestCase):
         sso_role_name = AdministratorAccess
         region = ap-southeast-2
         output = json
-        
+
         [profile dev]
         sso_start_url = https://petshop.awsapps.com/start
         sso_region = ap-southeast-2
@@ -45,7 +45,7 @@ class CLIUnitTests(TestCase):
         [profile zzz]
         region = ap-southeast-2
         output = json
-        cli_pager = 
+        cli_pager =
 
         [profile lab]
         sso_start_url = https://petshop.awsapps.com/start
@@ -129,8 +129,8 @@ class CLIUnitTests(TestCase):
                 "Expiration": "2020-06-13T17:15:23+00:00"
             },
             "AssumedRoleUser": {
-                "AssumedRoleId": "does-not-matter:yawsso-session-1",
-                "Arn": "arn:aws:sts::456789123:assumed-role/FullAdmin/yawsso-session-1"
+                "AssumedRoleId": "does-not-matter:dnxsso-session-1",
+                "Arn": "arn:aws:sts::456789123:assumed-role/FullAdmin/dnxsso-session-1"
             }
         }
 
@@ -413,7 +413,7 @@ class CLIUnitTests(TestCase):
             sso_role_name = Engineering
             region = ap-southeast-2
             output = json
-            
+
             [profile dev]
             role_arn = arn:aws:iam::456789123:role/FullAdmin
             source_profile = default

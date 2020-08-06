@@ -1,5 +1,5 @@
 [run]
-source = yawsso
+source = dnxsso
 omit = */test/test*,*tests*
 
 [report]

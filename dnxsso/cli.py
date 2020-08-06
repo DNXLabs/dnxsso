@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
 
-import yawsso
+import dnxsso
 
 TRACE = 5
 logging.addLevelName(TRACE, 'TRACE')
@@ -243,7 +243,7 @@ def fetch_credentials_with_assume_role(profile_name, profile):
         logger.log(TRACE, f"Role {profile['role_arn']} is configured with max duration `{duration_seconds}` seconds. "
                           f"But AWS SSO service-linked role to assume another role_arn defined in source_profile form "
                           f"`role chaining` (i.e. using a role to assume a second role). Fall back session duration "
-                          f"to a maximum of one hour. Well, you can always `yawsso` again when session expired!")
+                          f"to a maximum of one hour. Well, you can always `dnxsso` again when session expired!")
         duration_seconds = Constant.ROLE_CHAINING_DURATION_SECONDS.value
 
     utc_now_ts = int(datetime.utcnow().replace(tzinfo=timezone.utc).timestamp())
@@ -251,7 +251,7 @@ def fetch_credentials_with_assume_role(profile_name, profile):
                            f"--output json " \
                            f"--profile {profile_name} " \
                            f"--role-arn {profile['role_arn']} " \
-                           f"--role-session-name yawsso-session-{utc_now_ts} " \
+                           f"--role-session-name dnxsso-session-{utc_now_ts} " \
                            f"--duration-seconds {duration_seconds} " \
                            f"--region {profile['region']}"
 
@@ -348,9 +348,9 @@ def main():
     logger.addHandler(handler)
     logger.setLevel(logging.INFO)
 
-    version_help = f"{yawsso.__name__} {yawsso.__version__}"
+    version_help = f"{dnxsso.__name__} {dnxsso.__version__}"
     description = "Sync all named profiles when calling without any arguments"
-    parser = argparse.ArgumentParser(prog=yawsso.__name__, description=description)
+    parser = argparse.ArgumentParser(prog=dnxsso.__name__, description=description)
     parser.add_argument("--default", action="store_true", help=f"Sync AWS default profile and all named profiles")
     parser.add_argument("--default-only", action="store_true", help=f"Sync AWS default profile only and exit")
     parser.add_argument("-p", "--profiles", nargs="*", metavar="", help=f"Sync specified AWS named profiles")
@@ -445,14 +445,14 @@ def main():
                 update_profile(login_profile, config)
                 exit(0)
 
-            if login_profile == "default" and not export_vars:  # to reconcile `yawsso -e` behaviour use case below
+            if login_profile == "default" and not export_vars:  # to reconcile `dnxsso -e` behaviour use case below
                 update_profile("default", config)
 
         elif args.command == "version":
             logger.info(version_help)
             exit(0)
 
-    # Specific use case: making `yawsso -e` or `yawsso login -e` behaviour to sync default profile, print cred then exit
+    # Specific use case: making `dnxsso -e` or `dnxsso login -e` behaviour to sync default profile, print cred then exit
     if export_vars and not args.default and not args.profiles:
         credentials = update_profile("default", config)
         print_export_vars("default", credentials)

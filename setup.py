@@ -1,24 +1,24 @@
 from setuptools import setup
 
-from yawsso import __version__
+from dnxsso import __version__
 
 with open("README.md", "r") as f:
     long_description = f.read()
 
 setup(
-    name="yawsso",
+    name="dnxsso",
     version=__version__,
-    description="Yet Another AWS SSO - sync up AWS CLI v2 SSO login session to legacy CLI v1 credentials",
+    description="Sync up AWS CLI v2 SSO login session to legacy CLI v1 credentials",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/victorskl/yawsso",
-    author="Victor San Kho Lin",
-    author_email="victor@sankholin.com",
+    url="https://github.com/DNXLabs/dnxsso",
+    author="DNX Solutions",
+    author_email="contact@dnx.solutions",
     license="MIT",
-    packages=["yawsso"],
+    packages=["dnxsso"],
     zip_safe=False,
     entry_points={
-        "console_scripts": ["yawsso=yawsso.cli:main"],
+        "console_scripts": ["dnxsso=dnxsso.cli:main"],
     },
     extras_require={
         "test": [
