@@ -68,14 +68,14 @@ def update_aws_cli_v1_credentials(profile_name, profile, credentials):
     write_config(aws_shared_credentials_file, config)
 
 
-def print_export_vars(profile_name, credentials):
+def print_vars(profile_name, credentials):
     if credentials:
-        logger.debug(f"Printing export statements for profile `{profile_name}`:")
-        logger.info(f"export AWS_ACCESS_KEY_ID={credentials['accessKeyId']}")
-        logger.info(f"export AWS_SECRET_ACCESS_KEY={credentials['secretAccessKey']}")
-        logger.info(f"export AWS_SESSION_TOKEN={credentials['sessionToken']}")
+        logger.debug(f"Printing statements for profile `{profile_name}`:")
+        logger.info(f"AWS_ACCESS_KEY_ID={credentials['accessKeyId']}")
+        logger.info(f"AWS_SECRET_ACCESS_KEY={credentials['secretAccessKey']}")
+        logger.info(f"AWS_SESSION_TOKEN={credentials['sessionToken']}")
     else:
-        logger.debug(f"No credentials found to export for profile `{profile_name}`")
+        logger.debug(f"No credentials found to for profile `{profile_name}`")
 
 
 def halt(error):
@@ -455,14 +455,14 @@ def main():
     # Specific use case: making `dnxsso -e` or `dnxsso login -e` behaviour to sync default profile, print cred then exit
     if export_vars and not args.default and not args.profiles:
         credentials = update_profile("default", config)
-        print_export_vars("default", credentials)
+        print_vars("default", credentials)
         exit(0)
 
     # Specific use case: two flags to take care of default profile sync behaviour
     if args.default or args.default_only:
         credentials = update_profile("default", config)
         if export_vars:
-            print_export_vars("default", credentials)
+            print_vars("default", credentials)
         if args.default_only:
             exit(0)
 
@@ -493,4 +493,4 @@ def main():
     for profile_name in profiles:
         credentials = update_profile(profile_name, config)
         if export_vars:
-            print_export_vars(profile_name, credentials)
+            print_vars(profile_name, credentials)

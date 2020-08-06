@@ -539,7 +539,7 @@ class CLIUnitTests(TestCase):
         self.assertEqual(tok_now, 'tok')  # assert no update
         verify(cli, times=1).invoke(...)
 
-    def test_print_export_vars(self):
+    def test_print_vars(self):
         with ArgvContext(program, '-e', '-p', 'dev'):
             cli.main()
         cred = cli.read_config(self.credentials.name)
@@ -548,7 +548,7 @@ class CLIUnitTests(TestCase):
         self.assertEqual(new_tok, 'VeryLongBase664String==')
         verify(cli, times=3).invoke(...)
 
-    def test_print_export_vars_fail(self):
+    def test_print_vars_fail(self):
         when(cli).update_profile(...).thenReturn(None)
         with ArgvContext(program, '-e', '-t', '-p', 'dev'):
             cli.main()
@@ -557,7 +557,7 @@ class CLIUnitTests(TestCase):
         self.assertEqual(tok_now, 'tok')  # assert no update
         verify(cli, times=1).invoke(...)
 
-    def test_print_export_vars_default_only_profile(self):
+    def test_print_vars_default_only_profile(self):
         with ArgvContext(program, '-e', '-t'), self.assertRaises(SystemExit) as x:
             # clean up as going to mutate this
             self.config.close()
@@ -580,7 +580,7 @@ class CLIUnitTests(TestCase):
         verify(cli, times=3).invoke(...)
         self.assertEqual(x.exception.code, 0)
 
-    def test_print_export_vars_default_profile(self):
+    def test_print_vars_default_profile(self):
         with ArgvContext(program, '-e', '--default', '-t'):
             # clean up as going to mutate this
             self.config.close()
